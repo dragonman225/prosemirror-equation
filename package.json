@@ -1,0 +1,62 @@
+{
+  "name": "prosemirror-equation",
+  "version": "0.1.9",
+  "packageManager": "pnpm@10.23.0",
+  "description": "Render and edit math equations (TeX) in ProseMirror.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/dragonman225/prosemirror-equation",
+  "bugs": {
+    "url": "https://github.com/dragonman225/prosemirror-equation/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dragonman225/prosemirror-equation.git"
+  },
+  "author": "dragonman225 <alexwang.maker+npm@gmail.com>",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown --platform browser --sourcemap",
+    "build:demo": "vite build demo",
+    "dev": "vite demo",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@vitest/coverage-v8": "^4.0.13",
+    "bumpp": "^10.3.1",
+    "prettier": "^3.6.2",
+    "prosemirror-example-setup": "^1.2.3",
+    "prosemirror-gapcursor": "^1.4.0",
+    "prosemirror-menu": "^1.2.5",
+    "prosemirror-schema-basic": "^1.2.4",
+    "tsdown": "^0.16.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4",
+    "vitest": "^4.0.13"
+  },
+  "peerDependencies": {
+    "@codemirror/autocomplete": "^6.18.6",
+    "@codemirror/commands": "^6.8.1",
+    "@codemirror/language": "^6.11.0",
+    "@codemirror/legacy-modes": "^6.5.2",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.36.6",
+    "katex": "^0.16.25",
+    "prosemirror-inputrules": "^1.4.0",
+    "prosemirror-model": "^1.25.0",
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-view": "^1.38.1"
+  }
+}

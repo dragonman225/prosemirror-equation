@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset="utf8" />
+<title>prosemirror-equation</title>
+
+<style>
+  body {
+    max-width: 50em;
+    font-family: Georgia;
+  }
+
+  .ProseMirror-menubar-wrapper {
+    border: 1px solid silver;
+    outline: none;
+  }
+
+  .ProseMirror {
+    padding: 5px 15px;
+  }
+</style>
+
+<h1>prosemirror-equation</h1>
+<p>
+  (install via
+  <a
+    href="https://www.npmjs.com/package/prosemirror-equation"
+    target="_blank"
+    rel="noopener noreferrer"
+    >npm</a
+  >
+  or read more on
+  <a
+    href="https://github.com/dragonman225/prosemirror-equation"
+    target="_blank"
+    rel="noopener noreferrer"
+    >GitHub</a
+  >)
+</p>
+
+<div style="display: none" id="content">
+  <h2>Block equation</h2>
+  <block-equation>
+    F_n = \begin{cases} 0 & \text{if $n=0$} \\ 1 & \text{if $n=1$} \\ F_{n-1} +
+    F_{n-2} & \text{otherwise} \end{cases}
+  </block-equation>
+  <h2>Inline equation</h2>
+  <p>Euler's identity: <inline-equation>e^{i\pi} + 1 = 0</inline-equation></p>
+</div>
+
+<div id="editor"></div>
+
+<script type="module" src="./demo.ts"></script>

@@ -1,0 +1,57 @@
+name: ci
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      # TODO: Set up linter and enable
+      # - name: Lint
+      #   run: pnpm run lint
+
+  test:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup
+
+      - name: Test
+        run: pnpm run test
+
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+
+  publish-snapshot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup
+
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Publish snapshot packages
+        if: ${{ github.event_name == 'pull_request' }}
+        run: ./node_modules/.bin/pkg-pr-new publish --pnpm
