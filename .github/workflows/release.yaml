@@ -31,4 +31,4 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Publish to NPM
-        run: pnpm publish
+        run: pnpm publish --provenance
