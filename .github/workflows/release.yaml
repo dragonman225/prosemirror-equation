@@ -31,4 +31,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Publish to NPM
+        # `--provenance` is required when publishing from a repository for
+        # the first time. After that, publishing works without
+        # `--provenance`.
         run: pnpm publish --provenance
