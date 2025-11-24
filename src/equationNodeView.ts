@@ -89,7 +89,6 @@ export class EquationView implements NodeView {
 
   // ProseMirror -> CodeMirror
   update(node: ProseMirrorNode) {
-    console.log('update', node)
     if (!node.sameMarkup(this.node)) return false
     this.node = node
     renderEquationNode({
@@ -136,13 +135,6 @@ export class EquationView implements NodeView {
   }
 
   selectNode() {
-    console.log(
-      'selectNode',
-      this.getPos(),
-      this.pm.state.selection.from,
-      this.node.textContent
-    )
-
     this.dom.classList.add('ProseMirror-selectednode')
 
     // Don't show equation editor when outer ProseMirror view is not
@@ -176,7 +168,6 @@ export class EquationView implements NodeView {
   }
 
   deselectNode() {
-    console.log('deselect', this.getPos(), this.pm.state.selection.from)
     this.dom.classList.remove('ProseMirror-selectednode')
     this.dom.removeEventListener(
       'click',
