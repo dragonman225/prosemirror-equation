@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/dragonman225/prosemirror-equation/compare/v0.2.1...v0.2.2) (2025-11-25)
+
+
+### Features
+
+* mark module side-effect-free ([241438f](https://github.com/dragonman225/prosemirror-equation/commit/241438fbfe6b904b4e053a855625ffab604badb3))
+
 ## [0.2.1](https://github.com/dragonman225/prosemirror-equation/compare/v0.2.0...v0.2.1) (2025-11-24)
 
 
