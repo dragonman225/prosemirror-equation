@@ -59,5 +59,10 @@
     "prosemirror-model": "^1.25.0",
     "prosemirror-state": "^1.4.3",
     "prosemirror-view": "^1.38.1"
+  },
+  "peerDependenciesMeta": {
+    "prosemirror-inputrules": {
+      "optional": true
+    }
   }
 }
