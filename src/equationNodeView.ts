@@ -47,9 +47,6 @@ export class EquationView implements NodeView {
   private cleanupEquationEditor: (() => void) | void | undefined
   // CodeMirror as equation editor
   private cm: CodeMirrorView | undefined
-  // `true` when updating from ProseMirror, to avoid update loops between
-  // the outer editor and inner editor.
-  private updatingFromOutside: boolean = false
   // LaTeX language support for CodeMirror. Will be imported and prepared
   // dynamically on first use.
   private static latexLanguageSupport: LanguageSupport | undefined
@@ -224,7 +221,9 @@ export class EquationView implements NodeView {
   }
 
   private closeEquationEditor() {
-    this.cm?.destroy()
+    // TODO: Extract TeX editor so it can work with delayed cleanup due to
+    // animation.
+    // this.cm?.destroy()
     this.cm = undefined
     this.cleanupEquationEditor?.()
     this.cleanupEquationEditor = undefined
@@ -330,7 +329,7 @@ export class EquationView implements NodeView {
       return true
     }
 
-    // Re-render equation to the unedited version
+    // Re-render equation to the version in the latest ProseMirror doc.
     renderEquationNode({
       dom: this.dom,
       isBlock: this.isBlock,
