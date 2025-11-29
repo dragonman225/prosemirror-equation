@@ -1,7 +1,11 @@
 interface EquationEditorProps {
-  equationNodeRect: DOMRect
+  /** Put this into DOM so user can edit TeX. */
   texEditor: HTMLElement
+  /** Get DOMRect of the equation node being edited. */
+  getNodeRect: () => DOMRect
+  /** Discard TeX modification and close editor. */
   cancelEdit: () => void
+  /** Commit TeX modification and close editor.  */
   confirmEdit: () => void
 }
 
@@ -14,8 +18,8 @@ export type RenderEquationEditorFn = typeof renderEquationEditor
 
 /** Default implementation of equation editor. */
 export function renderEquationEditor({
-  equationNodeRect,
   texEditor,
+  getNodeRect,
   cancelEdit,
   confirmEdit,
 }: EquationEditorProps): void | CleanupEquationEditorFn {
@@ -28,6 +32,7 @@ export function renderEquationEditor({
   }
   portal.addEventListener('click', handlePortalClick)
 
+  const equationNodeRect = getNodeRect()
   const popup = document.createElement('div')
   popup.classList.add('equation-editor-popup')
   popup.role = 'dialog'

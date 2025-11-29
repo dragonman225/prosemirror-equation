@@ -238,11 +238,11 @@ export class EquationView implements NodeView {
 
     this.loadLatexLanguageSupport()
 
-    const equationNodeRect = this.dom.getBoundingClientRect()
+    const getNodeRect = () => this.dom.getBoundingClientRect()
     this.isEditing = true
     this.cleanupEquationEditor = this.renderEquationEditor({
-      equationNodeRect,
       texEditor: this.cm.dom,
+      getNodeRect,
       cancelEdit: this.cancelEdit.bind(this),
       confirmEdit: this.confirmEdit.bind(this),
     })
