@@ -90,47 +90,17 @@ export class EquationView implements NodeView {
   // ProseMirror -> CodeMirror
   update(node: ProseMirrorNode) {
     if (!node.sameMarkup(this.node)) return false
+    // `cancalEdit()` needs the latest version in ProseMirror doc.
     this.node = node
+    // Don't re-render equation node when it's being edited since it needs
+    // to be consistent with TeX in equation editor.
+    if (this.isEditing) return false
     renderEquationNode({
       dom: this.dom,
       isBlock: this.isBlock,
       isInlineDisplay: node.attrs.display,
       tex: node.textContent,
     })
-
-    // Updating LaTeX in editor if it's open
-    if (this.updatingFromOutside) return true
-    if (!this.cm) return true
-    const newText = node.textContent
-    const curText = this.cm.state.doc.toString()
-    if (newText != curText) {
-      let start = 0,
-        curEnd = curText.length,
-        newEnd = newText.length
-      while (
-        start < curEnd &&
-        curText.charCodeAt(start) == newText.charCodeAt(start)
-      ) {
-        ++start
-      }
-      while (
-        curEnd > start &&
-        newEnd > start &&
-        curText.charCodeAt(curEnd - 1) == newText.charCodeAt(newEnd - 1)
-      ) {
-        curEnd--
-        newEnd--
-      }
-      this.updatingFromOutside = true
-      this.cm.dispatch({
-        changes: {
-          from: start,
-          to: curEnd,
-          insert: newText.slice(start, newEnd),
-        },
-      })
-      this.updatingFromOutside = false
-    }
     return true
   }
 
