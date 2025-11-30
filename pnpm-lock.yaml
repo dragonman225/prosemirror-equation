@@ -26,6 +26,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.36.6
         version: 6.38.8
+      '@lezer/highlight':
+        specifier: ^1.2.3
+        version: 1.2.3
       katex:
         specifier: ^0.16.25
         version: 0.16.25

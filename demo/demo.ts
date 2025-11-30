@@ -3,6 +3,7 @@ import 'prosemirror-menu/style/menu.css'
 import 'prosemirror-example-setup/style/style.css'
 import 'prosemirror-gapcursor/style/gapcursor.css'
 import 'katex/dist/katex.min.css'
+import '../style/equation.css'
 
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
@@ -11,6 +12,7 @@ import { schema as baseSchema } from 'prosemirror-schema-basic'
 import { exampleSetup } from 'prosemirror-example-setup'
 import { inputRules } from 'prosemirror-inputrules'
 import { equation, equationNodes, inlineEquationInputRule } from '../src'
+import { editorTheme, latex } from '../src/components/tex-editor/codemirror'
 
 const schema = new Schema({
   nodes: baseSchema.spec.nodes.append(
@@ -37,7 +39,9 @@ let state = EditorState.create({
      *    equation NodeViews and allow opening an equation editor
      *    programmatically.
      */
-    equation(),
+    equation({
+      codemirrorExtensions: [editorTheme, latex()],
+    }),
 
     inputRules({
       rules: [

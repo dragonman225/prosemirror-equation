@@ -223,7 +223,7 @@ export class EquationView implements NodeView {
   private closeEquationEditor() {
     // TODO: Extract TeX editor so it can work with delayed cleanup due to
     // animation.
-    // this.cm?.destroy()
+    this.cm?.destroy()
     this.cm = undefined
     this.cleanupEquationEditor?.()
     this.cleanupEquationEditor = undefined

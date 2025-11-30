@@ -54,10 +54,13 @@ export function renderEquationEditor({
 
   const confirmBtn = document.createElement('button')
   confirmBtn.classList.add('equation-editor-confirm-btn', 'os-btn-primary')
-  confirmBtn.innerText = 'Done'
-  const enterSign = document.createElement('div')
-  enterSign.innerText = '↵'
-  confirmBtn.append(enterSign)
+  const text = document.createElement('span')
+  text.classList.add('text')
+  text.innerText = 'Done'
+  const icon = document.createElement('div')
+  icon.classList.add('icon')
+  icon.innerText = '↵'
+  confirmBtn.append(text, icon)
   function handleConfirmBtnClick() {
     confirmEdit()
   }
@@ -70,6 +73,18 @@ export function renderEquationEditor({
   return () => {
     portal.removeEventListener('click', handlePortalClick)
     confirmBtn.removeEventListener('click', handleConfirmBtnClick)
-    document.body.removeChild(portal)
+    animateClose()
+
+    function animateClose() {
+      const durationMs = 200
+      // Reverse animation sometimes doesn't animate and doesn't end.
+      popup.style.animation = `equation-fade-scale-out ${durationMs}ms ease forwards`
+      popup.addEventListener('animationend', unmount)
+    }
+
+    function unmount() {
+      popup.removeEventListener('animationend', unmount)
+      document.body.removeChild(portal)
+    }
   }
 }
