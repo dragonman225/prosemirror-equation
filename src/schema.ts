@@ -18,7 +18,7 @@ export function equationNodes(options: EquationNodesOptions): EquationNodes {
       content: 'text*',
       atom: true,
       toDOM: () => ['block-equation', 0],
-      parseDOM: [{ tag: 'block-equation' }],
+      parseDOM: [{ tag: 'block-equation', preserveWhitespace: 'full' }],
     },
     [INLINE_EQUATION_NAME]: {
       group: options.inlineEquationGroup,
@@ -34,6 +34,7 @@ export function equationNodes(options: EquationNodesOptions): EquationNodes {
       parseDOM: [
         {
           tag: 'inline-equation',
+          preserveWhitespace: 'full',
           getAttrs(dom) {
             return {
               display: (dom as HTMLElement).dataset.display,
