@@ -23,7 +23,7 @@ We’ve taken a lot of inspiration from how Notion designs its [math equation ex
 
 In addition to user-facing features, we also offer the following developer-friendly benefits:
 
-- Unstyled, fully customizable UI.
+- Unstyled, framework-agnostic, fully customizable UI.
 - Dynamic loading of KaTeX only when an equation node is present—saving [about 250 KB](https://bundlephobia.com/package/katex@0.16.25) from your main JavaScript bundle.
 
 ## Usage
