@@ -5,6 +5,7 @@ export default defineConfig({
   entry: [
     'src/index.ts',
     'src/components/equation-editor/index.ts',
+    'src/components/equation-node/index.ts',
     'src/components/tex-editor-codemirror/index.ts',
     'src/example-setup/index.ts',
   ],

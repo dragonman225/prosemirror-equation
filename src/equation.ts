@@ -7,6 +7,7 @@ import {
 } from './constants'
 import { EquationView } from './equationNodeView'
 import type { RenderEquationEditorFn } from './components/equation-editor'
+import type { RenderEquationNodeFn } from './components/equation-node'
 
 type EquationPluginState = {
   docChangedInLastTr: boolean
@@ -21,13 +22,17 @@ interface EquationOptions {
    * clean-up function to execute when closing editor.
    */
   renderEditor: RenderEquationEditorFn
+  /**
+   * A function that renders equation node to HTML document.
+   */
+  renderNode: RenderEquationNodeFn
 }
 
 /**
  * Create a ProseMirror plugin that adds equation NodeViews and manages
  * them.
  */
-export function equation({ renderEditor }: EquationOptions) {
+export function equation({ renderEditor, renderNode }: EquationOptions) {
   const key = new PluginKey<EquationPluginState>('equation')
   const equationViewFactory = (type: string) =>
     ((node, view, getPos) => {
@@ -37,7 +42,8 @@ export function equation({ renderEditor }: EquationOptions) {
         getPos,
         key,
         type === BLOCK_EQUATION_NAME,
-        renderEditor
+        renderEditor,
+        renderNode
       )
     }) as NodeViewConstructor
 

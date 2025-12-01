@@ -25,6 +25,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./components/equation-editor": "./dist/components/equation-editor/index.js",
+    "./components/equation-node": "./dist/components/equation-node/index.js",
     "./components/tex-editor-codemirror": "./dist/components/tex-editor-codemirror/index.js",
     "./example-setup": "./dist/example-setup/index.js",
     "./package.json": "./package.json"
