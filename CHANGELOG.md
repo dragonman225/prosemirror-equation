@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.3.0...v0.4.0) (2025-12-01)
+
+
+### Features
+
+* allow passing custom renderEquationNode implementation to equation() ([cf69e84](https://github.com/dragonman225/prosemirror-equation/commit/cf69e84a42bf9b2cc85796bea14d80423a8bd5f0))
+* dynamically load CodeMirror packages to reduce main JS bundle's size by 238KB ([75ede4d](https://github.com/dragonman225/prosemirror-equation/commit/75ede4d6fad6f7ba51e6978a3018e4b06e203070))
+* equation() now doesn't use renderEquationEditor() by default. Use equationExampleSetup() instead if you want the default renderer. ([c8afefa](https://github.com/dragonman225/prosemirror-equation/commit/c8afefa51f439eb30444ba386b52ee430d502cb5))
+
 ## [0.3.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.2.2...v0.3.0) (2025-11-30)
 
 
