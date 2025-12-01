@@ -11,8 +11,8 @@ import { DOMParser, Schema } from 'prosemirror-model'
 import { schema as baseSchema } from 'prosemirror-schema-basic'
 import { exampleSetup } from 'prosemirror-example-setup'
 import { inputRules } from 'prosemirror-inputrules'
-import { equation, equationNodes, inlineEquationInputRule } from '../src'
-import { editorTheme, latex } from '../src/components/tex-editor/codemirror'
+import { equationNodes, inlineEquationInputRule } from '../src'
+import { equationExampleSetup } from '../src/example-setup'
 
 const schema = new Schema({
   nodes: baseSchema.spec.nodes.append(
@@ -39,10 +39,7 @@ let state = EditorState.create({
      *    equation NodeViews and allow opening an equation editor
      *    programmatically.
      */
-    equation({
-      codemirrorExtensions: [editorTheme, latex()],
-    }),
-
+    equationExampleSetup(),
     inputRules({
       rules: [
         /**

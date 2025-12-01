@@ -1,12 +1,24 @@
+import { renderTexEditor } from '../tex-editor-codemirror'
+
 interface EquationEditorProps {
-  /** Put this into DOM so user can edit TeX. */
-  texEditor: HTMLElement
+  /** Whether the equation node is a block equation. */
+  isBlock: boolean
+  /** Initial TeX content. */
+  initialTex: string
+  /** When the content changes. */
+  onChange: (tex: string) => void
   /** Get DOMRect of the equation node being edited. */
   getNodeRect: () => DOMRect
   /** Discard TeX modification and close editor. */
   cancelEdit: () => void
-  /** Commit TeX modification and close editor.  */
-  confirmEdit: () => void
+  /**
+   * Commit TeX modification and close editor.
+   *
+   * @param dir Indicate the side of the equation node that the caret
+   * should appear blinking at after closing the editor. -1 means left and
+   * 1 means right. Default: 1 (right).
+   */
+  confirmEdit: (dir?: -1 | 1) => void
 }
 
 /**
@@ -18,7 +30,9 @@ export type RenderEquationEditorFn = typeof renderEquationEditor
 
 /** Default implementation of equation editor. */
 export function renderEquationEditor({
-  texEditor,
+  isBlock,
+  initialTex,
+  onChange,
   getNodeRect,
   cancelEdit,
   confirmEdit,
@@ -32,14 +46,13 @@ export function renderEquationEditor({
   }
   portal.addEventListener('click', handlePortalClick)
 
-  const equationNodeRect = getNodeRect()
   const popup = document.createElement('div')
   popup.classList.add('equation-editor-popup')
   popup.role = 'dialog'
   popup.style.position = 'absolute'
+  const equationNodeRect = getNodeRect()
   popup.style.left = equationNodeRect.left + 'px'
   popup.style.setProperty('--equation-left', equationNodeRect.left + 'px')
-
   // Place popup below or above equation — at the side which has more space
   const windowHeight = window.innerHeight
   const spaceAbove = equationNodeRect.top
@@ -51,6 +64,18 @@ export function renderEquationEditor({
     popup.style.top = equationNodeRect.bottom + 'px'
     popup.style.transformOrigin = '0% top'
   }
+
+  const texEditor = renderTexEditor({
+    initialTex,
+    onChange,
+    onEnter: confirmEdit,
+    onEscape: cancelEdit,
+    onAttemptCaretExit: (dir) => {
+      // Don't move caret out when editing a block equation.
+      if (isBlock) return
+      confirmEdit(dir)
+    },
+  })
 
   const confirmBtn = document.createElement('button')
   confirmBtn.classList.add('equation-editor-confirm-btn', 'os-btn-primary')
@@ -66,9 +91,12 @@ export function renderEquationEditor({
   }
   confirmBtn.addEventListener('click', handleConfirmBtnClick)
 
-  popup.append(texEditor, confirmBtn)
+  popup.append(texEditor.dom, confirmBtn)
   portal.append(popup)
   document.body.append(portal)
+
+  // Call after textEditor is appended to the DOM.
+  texEditor.focus({ selectAll: true })
 
   return () => {
     portal.removeEventListener('click', handlePortalClick)
@@ -84,6 +112,7 @@ export function renderEquationEditor({
 
     function unmount() {
       popup.removeEventListener('animationend', unmount)
+      texEditor.destroy()
       document.body.removeChild(portal)
     }
   }

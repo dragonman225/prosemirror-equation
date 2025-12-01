@@ -24,7 +24,9 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
-    "./components/tex-editor/codemirror": "./dist/components/tex-editor/codemirror/index.js",
+    "./components/equation-editor": "./dist/components/equation-editor/index.js",
+    "./components/tex-editor-codemirror": "./dist/components/tex-editor-codemirror/index.js",
+    "./example-setup": "./dist/example-setup/index.js",
     "./package.json": "./package.json"
   },
   "scripts": {

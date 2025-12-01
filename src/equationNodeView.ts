@@ -1,28 +1,8 @@
-import { closeBrackets } from '@codemirror/autocomplete'
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
-import {
-  LanguageSupport,
-  StreamLanguage,
-  bracketMatching,
-} from '@codemirror/language'
-import {
-  Compartment,
-  type Extension as CodeMirrorExtension,
-} from '@codemirror/state'
-import {
-  EditorView as CodeMirrorView,
-  keymap as cmKeymap,
-  highlightSpecialChars,
-  type KeyBinding,
-} from '@codemirror/view'
 import type { Node as ProseMirrorNode } from 'prosemirror-model'
 import { NodeSelection, Selection, TextSelection } from 'prosemirror-state'
 import type { NodeView, EditorView as ProseMirrorView } from 'prosemirror-view'
 import type { EquationPluginKey } from './equation'
-import type { RenderEquationEditorFn } from './renderEquationEditor'
-
-// Hold language support extension to be used in CodeMirror
-const languageConf = new Compartment()
+import type { RenderEquationEditorFn } from './components/equation-editor'
 
 type GetPosFn = () => number | undefined
 
@@ -39,17 +19,12 @@ export class EquationView implements NodeView {
   private isBlock: boolean
   /** A function to render equation editor to HTML document. */
   private renderEquationEditor: RenderEquationEditorFn
-  /** CodeMirror extensions for theme and highlighting style. */
-  private additionalCodemirrorExtensions: CodeMirrorExtension[]
   /** Whether equation editor is open. */
   private isEditing: boolean = false
+  /** TeX content from the equation editor. */
+  private editorTex: string = ''
   /** A function to clean up equation editor. */
   private cleanupEquationEditor: (() => void) | void | undefined
-  // CodeMirror as equation editor
-  private cm: CodeMirrorView | undefined
-  // LaTeX language support for CodeMirror. Will be imported and prepared
-  // dynamically on first use.
-  private static latexLanguageSupport: LanguageSupport | undefined
 
   constructor(
     node: ProseMirrorNode,
@@ -57,8 +32,7 @@ export class EquationView implements NodeView {
     getPos: GetPosFn,
     equationPluginKey: EquationPluginKey,
     isBlock: boolean,
-    renderEquationEditor: RenderEquationEditorFn,
-    additionalCodemirrorExtensions: CodeMirrorExtension[] = []
+    renderEquationEditor: RenderEquationEditorFn
   ) {
     // For later usage
     this.node = node
@@ -67,7 +41,6 @@ export class EquationView implements NodeView {
     this.equationPluginKey = equationPluginKey
     this.isBlock = isBlock
     this.renderEquationEditor = renderEquationEditor
-    this.additionalCodemirrorExtensions = additionalCodemirrorExtensions
 
     const display = isBlock ? true : node.attrs.display
     this.dom = document.createElement(display ? 'div' : 'span')
@@ -174,93 +147,32 @@ export class EquationView implements NodeView {
 
     this.dom.classList.add('editing-equation')
 
-    this.cm = new CodeMirrorView({
-      doc: this.node.textContent,
-      extensions: [
-        this.additionalCodemirrorExtensions,
-        cmKeymap.of([
-          ...this.equationEditorKeymap(),
-          ...historyKeymap,
-          ...defaultKeymap,
-        ]),
-        highlightSpecialChars(),
-        bracketMatching(),
-        closeBrackets(),
-        history(),
-        CodeMirrorView.lineWrapping,
-        CodeMirrorView.updateListener.of(
-          (update) =>
-            update.docChanged &&
-            renderEquationNode({
-              dom: this.dom,
-              isBlock: this.isBlock,
-              isInlineDisplay: this.node.attrs.display,
-              tex: update.state.doc.toString(),
-            })
-        ),
-        // LaTeX language support will be loaded dynamically.
-        languageConf.of(EquationView.latexLanguageSupport || []),
-      ],
-    })
-
-    this.loadLatexLanguageSupport()
-
-    const getNodeRect = () => this.dom.getBoundingClientRect()
     this.isEditing = true
+    this.editorTex = this.node.textContent
     this.cleanupEquationEditor = this.renderEquationEditor({
-      texEditor: this.cm.dom,
-      getNodeRect,
+      isBlock: this.isBlock,
+      initialTex: this.editorTex,
+      onChange: (tex) => {
+        this.editorTex = tex
+        renderEquationNode({
+          dom: this.dom,
+          isBlock: this.isBlock,
+          isInlineDisplay: this.node.attrs.display,
+          tex,
+        })
+      },
+      getNodeRect: () => this.dom.getBoundingClientRect(),
       cancelEdit: this.cancelEdit.bind(this),
       confirmEdit: this.confirmEdit.bind(this),
     })
-
-    this.cm.dispatch({
-      selection: { anchor: 0, head: this.node.textContent.length },
-    })
-    this.cm.focus()
   }
 
   private closeEquationEditor() {
-    // TODO: Extract TeX editor so it can work with delayed cleanup due to
-    // animation.
-    this.cm?.destroy()
-    this.cm = undefined
     this.cleanupEquationEditor?.()
     this.cleanupEquationEditor = undefined
     this.isEditing = false
+    this.editorTex = ''
     this.dom.classList.remove('editing-equation')
-  }
-
-  private equationEditorKeymap(): KeyBinding[] {
-    return [
-      { key: 'ArrowLeft', run: () => this.mayMoveCaretOut('char', -1) },
-      { key: 'ArrowRight', run: () => this.mayMoveCaretOut('char', 1) },
-      { key: 'Enter', run: () => this.confirmEdit() },
-      { key: 'Escape', run: () => this.cancelEdit() },
-    ]
-  }
-
-  // Try to move caret from equation editor (CodeMirror) to host document
-  // editor (ProseMirror). This will also save equation changes and close
-  // equation editor.
-  //
-  // @see `maybeEscape` in the "Embedded code editor" example
-  // https://prosemirror.net/examples/codemirror/
-  private mayMoveCaretOut(unit: 'line' | 'char', dir: -1 | 1) {
-    // Should not move caret out if editing an equation block
-    if (this.isBlock) return false
-
-    // Check if caret is moving out
-    if (!this.cm) return false
-    const { state } = this.cm
-    const { main } = state.selection
-    if (!main.empty) return false
-    let mainSel: { from: number; to: number } = main
-    if (unit == 'line') mainSel = state.doc.lineAt(main.head)
-    if (dir < 0 ? mainSel.from > 0 : mainSel.to < state.doc.length) return false
-
-    // Caret is moving out, save changes and close editor
-    return this.confirmEdit(dir)
   }
 
   /**
@@ -271,8 +183,7 @@ export class EquationView implements NodeView {
    * blinking at. Default: 1 (right).
    */
   private confirmEdit(dir: -1 | 1 = 1) {
-    if (!this.cm) return true
-    const nextTex = this.cm.state.doc.toString().trim()
+    const nextTex = this.editorTex.trim()
     this.closeEquationEditor()
 
     // When editing an inline equation, if newTeX is empty, delete the node
@@ -375,36 +286,6 @@ export class EquationView implements NodeView {
     /** Focusing ProseMirror may cause perceivable delay, so do it in next
         frame. */
     requestAnimationFrame(() => this.pm.focus())
-  }
-
-  /**
-   * Dynamically load LaTeX language support module, cache it at
-   * `EquationView.latexLanguageSupport`, and add it to CodeMirror.
-   */
-  private loadLatexLanguageSupport() {
-    // Dynamically import LaTeX language support for syntax highlighting
-    // @see https://github.com/codemirror/language-data/blob/e0a0578fc1d1d678bec348fd409d0100a834be34/src/language-data.ts#L848
-    if (!EquationView.latexLanguageSupport) {
-      import('@codemirror/legacy-modes/mode/stex')
-        .then(
-          // @see https://github.com/codemirror/language-data/blob/e0a0578fc1d1d678bec348fd409d0100a834be34/src/language-data.ts#L4
-          (module) => {
-            EquationView.latexLanguageSupport = new LanguageSupport(
-              StreamLanguage.define(module.stex)
-            )
-            this.setLanguageSupport(EquationView.latexLanguageSupport)
-          }
-        )
-        .catch((error) => console.warn(error))
-    }
-  }
-
-  private setLanguageSupport(ls: CodeMirrorExtension) {
-    if (!this.cm) return
-    const current = languageConf.get(this.cm.state)
-    if (ls === current) return
-    const effect = languageConf.reconfigure(ls)
-    this.cm.dispatch({ effects: effect })
   }
 }
 

@@ -1,4 +1,3 @@
-import type { Extension as CodeMirrorExtension } from '@codemirror/state'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import type { NodeViewConstructor } from 'prosemirror-view'
 import {
@@ -7,10 +6,7 @@ import {
   REQUEST_OPEN_EDITOR_KEY,
 } from './constants'
 import { EquationView } from './equationNodeView'
-import {
-  renderEquationEditor,
-  type RenderEquationEditorFn,
-} from './renderEquationEditor'
+import type { RenderEquationEditorFn } from './components/equation-editor'
 
 type EquationPluginState = {
   docChangedInLastTr: boolean
@@ -24,26 +20,14 @@ interface EquationOptions {
    * A function that renders equation editor to HTML document and returns a
    * clean-up function to execute when closing editor.
    */
-  renderEditor?: RenderEquationEditorFn
-  /**
-   * Theme and syntax highlighting style that will be added to the
-   * underlying CodeMirror editor.
-   */
-  codemirrorExtensions?: CodeMirrorExtension[]
+  renderEditor: RenderEquationEditorFn
 }
 
 /**
  * Create a ProseMirror plugin that adds equation NodeViews and manages
  * them.
  */
-export function equation(
-  {
-    renderEditor = renderEquationEditor,
-    codemirrorExtensions,
-  }: EquationOptions = {
-    renderEditor: renderEquationEditor,
-  }
-) {
+export function equation({ renderEditor }: EquationOptions) {
   const key = new PluginKey<EquationPluginState>('equation')
   const equationViewFactory = (type: string) =>
     ((node, view, getPos) => {
@@ -53,8 +37,7 @@ export function equation(
         getPos,
         key,
         type === BLOCK_EQUATION_NAME,
-        renderEditor,
-        codemirrorExtensions
+        renderEditor
       )
     }) as NodeViewConstructor
 
