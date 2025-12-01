@@ -73,7 +73,6 @@ export function renderTexEditor({
     if (dir < 0 ? mainSel.from > 0 : mainSel.to < state.doc.length) return false
 
     // Caret can be moved out.
-    console.log('Caret can be moved out')
     onAttemptCaretExit?.(dir)
     return true
   }
