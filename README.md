@@ -70,35 +70,45 @@ The important files in this repository are:
 
 ## Development
 
-- Install dependencies:
+#### Install dependencies
 
 ```bash
 pnpm install
 ```
 
-- Develop the library with demo:
+#### Develop the library with demo
 
 ```bash
 pnpm run dev
 ```
 
-- Run the unit tests:
+#### Run the unit tests
 
 ```bash
 pnpm run test
 ```
 
-- Build the library:
+#### Build the library
 
 ```bash
 pnpm run build
 ```
 
-- Build the demo:
+#### Build the demo
 
 ```bash
 pnpm run build:demo
 ```
+
+#### Analyze bundle with demo
+
+```bash
+pnpm run analyzeBundle
+```
+
+and navigate to http://localhost:8888/
+
+#### Other notes
 
 - This repository uses [gh:@googleapis/release-please](https://github.com/googleapis/release-please) to create releases automatically. Add `Release-As: x.y.z` to the commit body to mark the version of the commit.
 

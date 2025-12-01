@@ -78,6 +78,9 @@ importers:
       vite:
         specifier: ^7.2.4
         version: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+      vite-bundle-analyzer:
+        specifier: ^1.2.3
+        version: 1.2.3
       vitest:
         specifier: ^4.0.13
         version: 4.0.13(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
@@ -1014,6 +1017,10 @@ packages:
     peerDependenciesMeta:
       synckit:
         optional: true
+
+  vite-bundle-analyzer@1.2.3:
+    resolution: {integrity: sha512-8nhwDGHWMKKgg6oegAOpDgTT7/yzTVzeYzLF4y8WBJoYu9gO7h29UpHiQnXD2rAvfQzDy5Wqe/Za5cgqhnxi5g==}
+    hasBin: true
 
   vite@7.2.4:
     resolution: {integrity: sha512-NL8jTlbo0Tn4dUEXEsUg8KeyG/Lkmc4Fnzb8JXN/Ykm9G4HNImjtABMJgkQoVjOBN/j2WAwDTRytdqJbZsah7w==}
@@ -1973,6 +1980,8 @@ snapshots:
     dependencies:
       '@oxc-project/runtime': 0.96.0
       rolldown: 1.0.0-beta.51
+
+  vite-bundle-analyzer@1.2.3: {}
 
   vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1):
     dependencies:
