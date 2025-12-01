@@ -65,7 +65,12 @@ export function renderEquationEditor({
     popup.style.transformOrigin = '0% top'
   }
 
-  const texEditor = renderTexEditor({
+  const texEditorPlaceholder = document.createElement('div')
+  texEditorPlaceholder.classList.add('tex-editor-placeholder')
+
+  let texEditor: Awaited<ReturnType<typeof renderTexEditor>> | undefined
+
+  renderTexEditor({
     initialTex,
     onChange,
     onEnter: confirmEdit,
@@ -75,6 +80,17 @@ export function renderEquationEditor({
       if (isBlock) return
       confirmEdit(dir)
     },
+  }).then((resolvedTexEditor) => {
+    texEditor = resolvedTexEditor
+    // If placeholder is no longer in DOM, it means the editor has been
+    // closed before CodeMirror finished loading. Destroy the editor to
+    // prevent memory leaks.
+    if (texEditorPlaceholder.parentElement) {
+      texEditorPlaceholder.replaceWith(texEditor.dom)
+      texEditor.focus({ selectAll: true })
+    } else {
+      texEditor.destroy()
+    }
   })
 
   const confirmBtn = document.createElement('button')
@@ -91,12 +107,9 @@ export function renderEquationEditor({
   }
   confirmBtn.addEventListener('click', handleConfirmBtnClick)
 
-  popup.append(texEditor.dom, confirmBtn)
+  popup.append(texEditorPlaceholder, confirmBtn)
   portal.append(popup)
   document.body.append(portal)
-
-  // Call after textEditor is appended to the DOM.
-  texEditor.focus({ selectAll: true })
 
   return () => {
     portal.removeEventListener('click', handlePortalClick)
@@ -112,7 +125,9 @@ export function renderEquationEditor({
 
     function unmount() {
       popup.removeEventListener('animationend', unmount)
-      texEditor.destroy()
+      // The TeX editor may or may not have been created when the user
+      // closes the equation editor.
+      texEditor?.destroy()
       document.body.removeChild(portal)
     }
   }

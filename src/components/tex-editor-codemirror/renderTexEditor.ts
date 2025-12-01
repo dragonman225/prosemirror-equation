@@ -1,14 +1,4 @@
-import { closeBrackets } from '@codemirror/autocomplete'
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
-import { bracketMatching } from '@codemirror/language'
-import {
-  EditorView as CodeMirrorView,
-  keymap as cmKeymap,
-  highlightSpecialChars,
-  type KeyBinding,
-} from '@codemirror/view'
-import { editorTheme } from './editorTheme'
-import { latex } from './latex'
+import type { KeyBinding } from '@codemirror/view'
 
 interface TexEditorProps {
   /** Initial TeX content. */
@@ -27,18 +17,18 @@ interface TexEditorProps {
   onAttemptCaretExit?: (dir: -1 | 1) => void
 }
 
-export function renderTexEditor({
+export async function renderTexEditor({
   initialTex,
   onChange,
   onEnter,
   onEscape,
   onAttemptCaretExit,
-}: TexEditorProps): {
+}: TexEditorProps): Promise<{
   dom: Element
   getTex: () => string
   focus: (options?: { selectAll?: boolean }) => void
   destroy: () => void
-} {
+}> {
   /**
    * `onEnter` and `onEscape` are always able to perform their side
    * effects, so these commands always return `true`.
@@ -76,6 +66,22 @@ export function renderTexEditor({
     onAttemptCaretExit?.(dir)
     return true
   }
+
+  const [
+    { closeBrackets },
+    { defaultKeymap, history, historyKeymap },
+    { bracketMatching },
+    { EditorView: CodeMirrorView, keymap: cmKeymap, highlightSpecialChars },
+    { editorTheme },
+    { latex },
+  ] = await Promise.all([
+    import('@codemirror/autocomplete'),
+    import('@codemirror/commands'),
+    import('@codemirror/language'),
+    import('@codemirror/view'),
+    import('./editorTheme'),
+    import('./latex'),
+  ])
 
   const texEditorKeymap: KeyBinding[] = [
     { key: 'ArrowLeft', run: () => mayAttemptCaretExit('char', -1) },
