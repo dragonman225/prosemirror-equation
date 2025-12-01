@@ -102,8 +102,6 @@ export function renderTexEditor({
     ],
   })
 
-  setTimeout(() => cm.focus(), 10)
-
   return {
     dom: cm.dom,
     getTex: () => cm.state.doc.toString(),
