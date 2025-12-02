@@ -58,8 +58,6 @@
     "@codemirror/autocomplete": "^6.18.6",
     "@codemirror/commands": "^6.8.1",
     "@codemirror/language": "^6.11.0",
-    "@codemirror/legacy-modes": "^6.5.2",
-    "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.36.6",
     "@lezer/highlight": "^1.2.3",
     "katex": "^0.16.25",
@@ -69,10 +67,25 @@
     "prosemirror-view": "^1.38.1"
   },
   "peerDependenciesMeta": {
-    "prosemirror-inputrules": {
+    "@codemirror/autocomplete": {
+      "optional": true
+    },
+    "@codemirror/commands": {
+      "optional": true
+    },
+    "@codemirror/language": {
+      "optional": true
+    },
+    "@codemirror/view": {
       "optional": true
     },
     "@lezer/highlight": {
+      "optional": true
+    },
+    "katex": {
+      "optional": true
+    },
+    "prosemirror-inputrules": {
       "optional": true
     }
   }
