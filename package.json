@@ -28,7 +28,8 @@
     "./components/equation-node": "./dist/components/equation-node/index.js",
     "./components/tex-editor-codemirror": "./dist/components/tex-editor-codemirror/index.js",
     "./example-setup": "./dist/example-setup/index.js",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./style/equation.css": "./style/equation.css"
   },
   "scripts": {
     "build": "tsdown --platform browser --sourcemap",

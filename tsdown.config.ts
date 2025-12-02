@@ -1,7 +1,12 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  exports: true,
+  exports: {
+    customExports(pkg) {
+      pkg['./style/equation.css'] = './style/equation.css'
+      return pkg
+    },
+  },
   entry: [
     'src/index.ts',
     'src/components/equation-editor/index.ts',
