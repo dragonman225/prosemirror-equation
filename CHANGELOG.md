@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/dragonman225/prosemirror-equation/compare/v0.4.0...v0.4.1) (2025-12-02)
+
+
+### Bug Fixes
+
+* add equation.css to exports field so that it can be imported ([1178609](https://github.com/dragonman225/prosemirror-equation/commit/117860934fa490722a38061f9931830cc486362c))
+* install @codemirror/state as a devDependency to fix type error in editorTheme ([d4e7129](https://github.com/dragonman225/prosemirror-equation/commit/d4e7129ccffa58b96a936f601c788a3b62ac0246))
+
 ## [0.4.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.3.0...v0.4.0) (2025-12-01)
 
 
