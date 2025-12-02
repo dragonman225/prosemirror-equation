@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/dragonman225/prosemirror-equation/compare/v0.4.1...v0.4.2) (2025-12-02)
+
+
+### doc
+
+* add usage section to README ([3ca5174](https://github.com/dragonman225/prosemirror-equation/commit/3ca5174cd53afb2699571fafb026cbdc75b5800a))
+
 ## [0.4.1](https://github.com/dragonman225/prosemirror-equation/compare/v0.4.0...v0.4.1) (2025-12-02)
 
 
