@@ -1,6 +1,7 @@
+import type { Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 
-export const editorTheme = EditorView.theme({
+export const editorTheme: Extension = EditorView.theme({
   '&': {
     color: 'var(--text-normal)',
     transition:
