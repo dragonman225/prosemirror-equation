@@ -1,9 +1,4 @@
-import 'prosemirror-view/style/prosemirror.css'
-import 'prosemirror-menu/style/menu.css'
-import 'prosemirror-example-setup/style/style.css'
-import 'prosemirror-gapcursor/style/gapcursor.css'
-import 'katex/dist/katex.min.css'
-import '../style/equation.css'
+import './style.css'
 
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
