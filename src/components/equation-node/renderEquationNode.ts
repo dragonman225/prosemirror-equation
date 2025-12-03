@@ -36,7 +36,7 @@ export const renderEquationNode: RenderEquationNodeFn = ({
         dom.classList.add('empty-equation')
         if (isBlock) {
           dom.innerHTML = `\
-<div style="width: 1.5625rem; height: 1.5625rem; flex-shrink: 0; margin-right: 0.75rem; display: flex; font-size: 0.75rem; font-family: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; align-items: center;">
+<div style="width: 1.5625rem; height: 1.5625rem; flex-shrink: 0; margin-right: 0.75rem; display: flex; font-size: 0.75rem; font-family: serif; align-items: center;">
   <div style="transform: translate(0.075rem, -0.15rem);">T</div>
   <div style="transform: translate(-0.05rem, 0.15rem);">E</div>
   <div style="transform: translate(-0.075rem, -0.15rem);">X</div>
