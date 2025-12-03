@@ -1,13 +1,18 @@
-import { Plugin, PluginKey } from 'prosemirror-state'
+import {
+  NodeSelection,
+  Plugin,
+  PluginKey,
+  TextSelection,
+} from 'prosemirror-state'
 import type { NodeViewConstructor } from 'prosemirror-view'
+import type { RenderEquationEditorFn } from './components/equation-editor'
+import type { RenderEquationNodeFn } from './components/equation-node'
 import {
   BLOCK_EQUATION_NAME,
   INLINE_EQUATION_NAME,
   REQUEST_OPEN_EDITOR_KEY,
 } from './constants'
 import { EquationView } from './equationNodeView'
-import type { RenderEquationEditorFn } from './components/equation-editor'
-import type { RenderEquationNodeFn } from './components/equation-node'
 
 type EquationPluginState = {
   docChangedInLastTr: boolean
@@ -69,6 +74,38 @@ export function equation({ renderEditor, renderNode }: EquationOptions) {
       nodeViews: {
         [BLOCK_EQUATION_NAME]: equationViewFactory(BLOCK_EQUATION_NAME),
         [INLINE_EQUATION_NAME]: equationViewFactory(INLINE_EQUATION_NAME),
+      },
+      handleKeyDown(view, event) {
+        // When a block equation node is selected, pressing Enter key opens
+        // the equation editor for the node.
+        if (!view.editable) return false
+        const { selection } = view.state
+        if (!(selection instanceof NodeSelection)) return false
+        const { node } = selection
+        if (node.type.name !== BLOCK_EQUATION_NAME) return false
+        if (event.key !== 'Enter') return false
+        // Do nothing if any modifier keys are pressed. If we return false
+        // ProseMirror will run default behavior (turning the block
+        // equation node into a paragraph node with two empty lines). Make
+        // sure we already checked that the selection is a block equation
+        // node at this moment, otherwise we will break Enter key behaviors
+        // for other nodes.
+        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+          return true
+        }
+
+        // Set selection to something else and set it back to the block
+        // equation node to make ProseMirror call `EquationView`'s
+        // `selectNode`, which will open the equation editor.
+        view.dispatch(
+          view.state.tr.setSelection(TextSelection.atStart(view.state.doc))
+        )
+        view.dispatch(
+          view.state.tr
+            .setSelection(NodeSelection.create(view.state.doc, selection.from))
+            .setMeta(REQUEST_OPEN_EDITOR_KEY, true)
+        )
+        return true
       },
     },
   })
