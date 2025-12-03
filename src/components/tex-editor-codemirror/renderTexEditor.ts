@@ -1,8 +1,16 @@
+import type { Extension } from '@codemirror/state'
 import type { KeyBinding } from '@codemirror/view'
 
-interface TexEditorProps {
+export interface TexEditorProps {
   /** Initial TeX content. */
   initialTex?: string
+  /**
+   * A function to load custom theme for the editor. It should return a
+   * Promise that resolves to a CodeMirror extension created with
+   * `EditorView.theme()`. This allows the editor to dynamically import
+   * `@codemirror/view`.
+   */
+  loadTheme?: () => Promise<Extension>
   /** When the content changes. */
   onChange?: (tex: string) => void
   /** When the user presses `Enter` in the editor. */
@@ -19,6 +27,7 @@ interface TexEditorProps {
 
 export async function renderTexEditor({
   initialTex,
+  loadTheme,
   onChange,
   onEnter,
   onEscape,
@@ -72,15 +81,15 @@ export async function renderTexEditor({
     { defaultKeymap, history, historyKeymap },
     { bracketMatching },
     { EditorView: CodeMirrorView, keymap: cmKeymap, highlightSpecialChars },
-    { editorTheme },
     { latex },
+    theme,
   ] = await Promise.all([
     import('@codemirror/autocomplete'),
     import('@codemirror/commands'),
     import('@codemirror/language'),
     import('@codemirror/view'),
-    import('./editorTheme'),
     import('./latex'),
+    loadTheme?.(),
   ])
 
   const texEditorKeymap: KeyBinding[] = [
@@ -99,7 +108,7 @@ export async function renderTexEditor({
       closeBrackets(),
       history(),
       latex(), // LaTeX syntax highlighting
-      editorTheme,
+      theme || [],
       CodeMirrorView.lineWrapping,
       CodeMirrorView.updateListener.of(
         (update) => update.docChanged && onChange?.(update.state.doc.toString())
