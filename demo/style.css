@@ -4,3 +4,11 @@
 @import 'prosemirror-gapcursor/style/gapcursor.css';
 @import 'katex/dist/katex.min.css';
 @import '../style/equation.css';
+
+.ProseMirror-menubar {
+  padding: 0px 6px 4px;
+}
+
+.ProseMirror-menuitem {
+  margin-top: 4px;
+}
