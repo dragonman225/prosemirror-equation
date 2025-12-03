@@ -3,10 +3,11 @@ import { EditorView } from '@codemirror/view'
 
 export const editorTheme: Extension = EditorView.theme({
   '&': {
-    color: 'var(--text-normal)',
+    color: 'var(--text-color)',
     transition:
       'background-color var(--theme-switch-duration) var(--theme-switch-easing)',
     fontSize: '0.875rem',
+    '--text-color': 'rgb(55, 53, 47)',
   },
   '.cm-scroller': {
     fontFamily: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace`,
@@ -17,7 +18,7 @@ export const editorTheme: Extension = EditorView.theme({
     outline: 'none',
   },
   '& .cm-content': {
-    caretColor: 'var(--text-normal)',
+    caretColor: 'var(--text-color)',
   },
-  '.cm-cursor, .cm-dropCursor': { borderLeftColor: 'var(--text-normal)' },
+  '.cm-cursor, .cm-dropCursor': { borderLeftColor: 'var(--text-color)' },
 })

@@ -94,7 +94,7 @@ export function renderEquationEditor({
   })
 
   const confirmBtn = document.createElement('button')
-  confirmBtn.classList.add('equation-editor-confirm-btn', 'os-btn-primary')
+  confirmBtn.classList.add('equation-editor-confirm-btn', 'btn-primary')
   const text = document.createElement('span')
   text.classList.add('text')
   text.innerText = 'Done'
