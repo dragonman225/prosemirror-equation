@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.4.2...v0.5.0) (2025-12-03)
+
+
+### Features
+
+* allow customizing theme in CodeMirror TeX editor without forking library code ([5009679](https://github.com/dragonman225/prosemirror-equation/commit/5009679eca07674b52d766fc510372b3a2f110ec))
+* change serif font in demo ([26a53b2](https://github.com/dragonman225/prosemirror-equation/commit/26a53b2921393f5df6377213990136c40b404689))
+* clean up CSS ([5ba5c00](https://github.com/dragonman225/prosemirror-equation/commit/5ba5c00d6ccaf2533ca338ea14b83028049708b9))
+
 ## [0.4.2](https://github.com/dragonman225/prosemirror-equation/compare/v0.4.1...v0.4.2) (2025-12-02)
 
 
