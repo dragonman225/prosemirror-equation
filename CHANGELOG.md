@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.5.0...v0.6.0) (2025-12-03)
+
+
+### Features
+
+* when a block equation node is selected, pressing Enter key opens the equation editor for the node ([5ce8bea](https://github.com/dragonman225/prosemirror-equation/commit/5ce8bea3c5d7746a883c2a0baf80005eef9f47be))
+
 ## [0.5.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.4.2...v0.5.0) (2025-12-03)
 
 
