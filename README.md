@@ -93,9 +93,7 @@ import { equationExampleSetup } from 'prosemirror-equation/example-setup'
 
 const state = EditorState.create({
   schema,
-  plugins: [
-    equationExampleSetup(),
-  ],
+  plugins: [equationExampleSetup()],
 })
 ```
 
@@ -132,11 +130,48 @@ If you want to have a clearer picture of how to put the pieces together, check o
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/dragonman225/prosemirror-equation?file=demo%2Fdemo.ts)
 
-## Styling
+## Customizing
+
+### Styling
+
+You can copy [`style/equation.css`](style/equation.css) to your project and modify it.
+
+### Modifying element structures and behaviors
+
+Instead of using the pre-configured `equationExampleSetup()` function from `prosemirror-equation/example-setup`, you can use `equation()` function from `prosemirror-equation` to provide your own implementations of `renderEditor` and `renderNode`.
+
+For example, below is how the `equationExampleSetup()` function is implemented:
+
+```ts
+import { equation } from 'prosemirror-equation'
+import { createEquationEditorRenderer } from 'prosemirror-equation/components/equation-editor'
+import { renderEquationNode } from 'prosemirror-equation/components/equation-node'
+
+export function equationExampleSetup() {
+  return equation({
+    renderEditor: createEquationEditorRenderer({
+      loadTexEditorTheme: async () =>
+        (await import('prosemirror-equation/components/tex-editor-codemirror'))
+          .editorTheme,
+    }),
+    renderNode: renderEquationNode,
+  })
+}
+```
+
+You can reuse the components that come with the `prosemirror-equation` package by importing them from `prosemirror-equation/components/*`.
+
+### Styling our CodeMirror-based TeX editor
+
+You can replace `loadTexEditorTheme` in the previous snippet with your own implementation to provide your own CodeMirror theme.
 
 - [How to style CodeMirror](https://codemirror.net/examples/styling/)
 
-### Ready-made CodeMirror themes
+#### Syntax highlighting
+
+Modify the `.cm-line .token.xxx` classes in [`style/equation.css`](style/equation.css).
+
+#### Ready-made CodeMirror themes
 
 - [gh:@codemirror/theme-one-dark](https://github.com/codemirror/theme-one-dark)
 - [gh:@fsegurai/codemirror-themes](https://github.com/fsegurai/codemirror-themes)
