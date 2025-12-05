@@ -45,6 +45,7 @@
     "@types/node": "^24.10.1",
     "@vitest/coverage-v8": "^4.0.13",
     "bumpp": "^10.3.1",
+    "pkg-pr-new": "^0.0.62",
     "prettier": "^3.6.2",
     "prosemirror-example-setup": "^1.2.3",
     "prosemirror-gapcursor": "^1.4.0",
