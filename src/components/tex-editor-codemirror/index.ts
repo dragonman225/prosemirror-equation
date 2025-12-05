@@ -1,3 +1,3 @@
-export * from './editorTheme'
-export * from './latex'
-export * from './renderTexEditor'
+export { editorTheme } from './editorTheme'
+export { latex } from './latex'
+export { renderTexEditor, type TexEditorProps } from './renderTexEditor'

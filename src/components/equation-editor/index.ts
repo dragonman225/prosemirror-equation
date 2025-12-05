@@ -1,1 +1,4 @@
-export * from './renderEquationEditor'
+export {
+  type RenderEquationEditorFn,
+  createEquationEditorRenderer,
+} from './renderEquationEditor'

@@ -1,6 +1,7 @@
 import type { Extension } from '@codemirror/state'
 import type { KeyBinding } from '@codemirror/view'
 
+/** @experimental */
 export interface TexEditorProps {
   /** Initial TeX content. */
   initialTex?: string
@@ -25,6 +26,7 @@ export interface TexEditorProps {
   onAttemptCaretExit?: (dir: -1 | 1) => void
 }
 
+/** @experimental */
 export async function renderTexEditor({
   initialTex,
   loadTheme,

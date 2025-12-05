@@ -1,6 +1,7 @@
+/** @experimental */
 export type RenderEquationNodeFn = (props: EquationNodeProps) => void
 
-export interface EquationNodeProps {
+interface EquationNodeProps {
   dom: HTMLElement
   isBlock: boolean
   isInlineDisplay: boolean
@@ -10,6 +11,7 @@ export interface EquationNodeProps {
 type Katex = typeof import('katex')
 let katex: Katex | undefined
 
+/** @experimental */
 export const renderEquationNode: RenderEquationNodeFn = ({
   dom,
   isBlock,

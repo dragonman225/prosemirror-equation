@@ -1,1 +1,4 @@
-export * from './renderEquationNode'
+export {
+  type RenderEquationNodeFn,
+  renderEquationNode,
+} from './renderEquationNode'

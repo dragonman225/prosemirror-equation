@@ -36,11 +36,15 @@ interface EquationEditorProps {
  */
 type CleanupEquationEditorFn = () => void
 
+/** @experimental */
 export type RenderEquationEditorFn = (
   props: EquationEditorProps
 ) => void | CleanupEquationEditorFn
 
-/** Default implementation of equation editor. */
+/**
+ * Default implementation of equation editor.
+ * @experimental
+ */
 export function createEquationEditorRenderer({
   loadTexEditorTheme,
 }: EquationEditorConfig = {}) {
