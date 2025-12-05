@@ -104,22 +104,14 @@
 
 /* Portal for positioning equation editor popup. */
 .equation-editor-portal {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  inset: 0;
   pointer-events: auto;
   z-index: 10;
 }
 
 /* Equation editor popup. */
 .equation-editor-popup {
-  /* Offset from the left position of the equation node */
-  --offset-x: -10px;
-  /* Gap between equation node and editor */
-  --gap-y: 8px;
-  margin: var(--gap-y) 0 var(--gap-y) var(--offset-x);
   border-radius: 10px;
   background-color: rgb(247, 247, 245);
   box-shadow:
@@ -127,7 +119,8 @@
     0px 2px 4px -1px rgba(0, 0, 0, 0.06),
     0 0 0 1px rgba(84, 72, 49, 0.08);
   padding: 4px 10px 4px 4px;
-  max-width: calc(100vw - (var(--equation-left) + var(--offset-x)) - 24px);
+  position: absolute;
+  max-width: calc(100vw - 24px); /* 12px padding */
   width: 400px;
   display: flex;
   align-items: center;

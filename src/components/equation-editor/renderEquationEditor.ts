@@ -1,3 +1,10 @@
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+  shift,
+} from '@floating-ui/dom'
 import { renderTexEditor, type TexEditorProps } from '../tex-editor-codemirror'
 
 interface EquationEditorConfig {
@@ -68,21 +75,26 @@ export function createEquationEditorRenderer({
     const popup = document.createElement('div')
     popup.classList.add('equation-editor-popup')
     popup.role = 'dialog'
-    popup.style.position = 'absolute'
-    const equationNodeRect = getNodeRect()
-    popup.style.left = equationNodeRect.left + 'px'
-    popup.style.setProperty('--equation-left', equationNodeRect.left + 'px')
-    // Place popup below or above equation — at the side which has more space
-    const windowHeight = window.innerHeight
-    const spaceAbove = equationNodeRect.top
-    const spaceBelow = windowHeight - equationNodeRect.bottom
-    if (spaceAbove > spaceBelow) {
-      popup.style.bottom = `calc(100vh - ${equationNodeRect.top}px)`
-      popup.style.transformOrigin = '0% bottom'
-    } else {
-      popup.style.top = equationNodeRect.bottom + 'px'
-      popup.style.transformOrigin = '0% top'
-    }
+
+    const destroyPopupPositioner = autoUpdate(
+      { getBoundingClientRect: getNodeRect },
+      popup,
+      () => {
+        computePosition({ getBoundingClientRect: getNodeRect }, popup, {
+          placement: 'bottom-start',
+          middleware: [offset(8), flip(), shift({ padding: 12 })],
+        }).then(({ x, y, placement }) => {
+          Object.assign(popup.style, {
+            left: `${x}px`,
+            top: `${y}px`,
+          })
+          // Set transform-origin for animations
+          popup.style.transformOrigin = placement.includes('bottom')
+            ? '0% top'
+            : '0% bottom'
+        })
+      }
+    )
 
     const texEditorPlaceholder = document.createElement('div')
     texEditorPlaceholder.classList.add('tex-editor-placeholder')
@@ -134,6 +146,7 @@ export function createEquationEditorRenderer({
     return () => {
       portal.removeEventListener('click', handlePortalClick)
       confirmBtn.removeEventListener('click', handleConfirmBtnClick)
+      destroyPopupPositioner()
       animateClose()
 
       function animateClose() {
