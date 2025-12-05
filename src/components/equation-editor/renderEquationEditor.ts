@@ -141,14 +141,17 @@ export function createEquationEditorRenderer({
         // Reverse animation sometimes doesn't animate and doesn't end.
         popup.style.animation = `equation-fade-scale-out ${durationMs}ms ease forwards`
         popup.addEventListener('animationend', unmount)
+        // Force unmount if animation doesn't end, for example, when
+        // style/equation.css is not loaded.
+        setTimeout(unmount, durationMs * 2)
       }
 
       function unmount() {
         popup.removeEventListener('animationend', unmount)
         // The TeX editor may or may not have been created when the user
-        // closes the equation editor.
+        // closes the equation editor due to dynamic import.
         texEditor?.destroy()
-        document.body.removeChild(portal)
+        portal.remove()
       }
     }
   }
