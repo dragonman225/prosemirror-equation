@@ -11,6 +11,27 @@ export type EquationNodes = Record<
   NodeSpec
 >
 
+/**
+ * This function creates a set of [node
+ * specs](http://prosemirror.net/docs/ref/#model.SchemaSpec.nodes) for
+ * `block_equation` and `inline_equation` nodes types as used by this
+ * module. The result can then be added to the set of nodes when creating a
+ * schema.
+ *
+ * @example
+ * ```ts
+ * new Schema({
+ *   nodes: {
+ *     ...equationNodes({
+ *       blockEquationGroup: 'block',
+ *       inlineEquationGroup: 'inline',
+ *     })
+ *   },
+ * })
+ * ```
+ *
+ * @public
+ */
 export function equationNodes(options: EquationNodesOptions): EquationNodes {
   return {
     [BLOCK_EQUATION_NAME]: {
