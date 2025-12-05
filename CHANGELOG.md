@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.7.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.6.1...v0.7.0) (2025-12-05)
+
+
+### Features
+
+* log EditorView to console in demo for easy inspecting ([142fd6a](https://github.com/dragonman225/prosemirror-equation/commit/142fd6a45fd4f99241683c64c1d06ee01c6716e5))
+* use floating-ui to position popup and update position when body scrolls ([7b04c35](https://github.com/dragonman225/prosemirror-equation/commit/7b04c3548daead3ff723e0cf42d9891cd6ab7588))
+
+
+### Bug Fixes
+
+* popup not unmounting when equation.css is not loaded ([872a11d](https://github.com/dragonman225/prosemirror-equation/commit/872a11dbb604367f78cfc71b4da524626a0514ab))
+
 ## [0.6.1](https://github.com/dragonman225/prosemirror-equation/compare/v0.6.0...v0.6.1) (2025-12-05)
 
 
