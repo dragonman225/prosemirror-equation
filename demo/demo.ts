@@ -59,3 +59,4 @@ declare global {
 }
 
 window.view = view
+console.log(view)
