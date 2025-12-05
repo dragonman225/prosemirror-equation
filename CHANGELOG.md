@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/dragonman225/prosemirror-equation/compare/v0.6.0...v0.6.1) (2025-12-05)
+
+
+### doc
+
+* add customization guide ([1bc5267](https://github.com/dragonman225/prosemirror-equation/commit/1bc52672514355997677350b784cef4c16968c3f))
+
 ## [0.6.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.5.0...v0.6.0) (2025-12-03)
 
 
