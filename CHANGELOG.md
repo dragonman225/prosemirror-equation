@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.7.0...v0.8.0) (2025-12-06)
+
+
+### Features
+
+* make TeX editor placeholder more informative ([5184774](https://github.com/dragonman225/prosemirror-equation/commit/5184774ac71c986281ec58f2dfb885d8482c4b99))
+
 ## [0.7.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.6.1...v0.7.0) (2025-12-05)
 
 
