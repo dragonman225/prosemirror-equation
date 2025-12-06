@@ -6,13 +6,13 @@ export const editorTheme: Extension = EditorView.theme({
     color: 'var(--text-color)',
     transition:
       'background-color var(--theme-switch-duration) var(--theme-switch-easing)',
-    fontSize: '0.875rem',
+    fontSize: 'var(--tex-editor-font-size)',
     '--text-color': 'rgb(55, 53, 47)',
   },
   '.cm-scroller': {
-    fontFamily: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace`,
-    lineHeight: '1.5',
-    maxHeight: '50vh',
+    fontFamily: `var(--font-mono)`,
+    lineHeight: 'var(--tex-editor-line-height)',
+    maxHeight: 'var(--tex-editor-max-height)',
   },
   '&.cm-focused': {
     outline: 'none',

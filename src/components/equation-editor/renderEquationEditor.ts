@@ -96,8 +96,10 @@ export function createEquationEditorRenderer({
       }
     )
 
-    const texEditorPlaceholder = document.createElement('div')
+    const texEditorPlaceholder = document.createElement('pre')
     texEditorPlaceholder.classList.add('tex-editor-placeholder')
+    texEditorPlaceholder.title = 'Loading TeX editor...'
+    texEditorPlaceholder.innerText = initialTex
 
     let texEditor: Awaited<ReturnType<typeof renderTexEditor>> | undefined
 

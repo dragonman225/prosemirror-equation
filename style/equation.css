@@ -1,4 +1,5 @@
-.ProseMirror {
+.ProseMirror,
+.equation-editor-popup {
   --text-dim: hsl(48, 5%, 40%);
   --invalid-equ-bg: #fce9e7;
   --empty-inline-equ-bg: hsl(220, 6%, 90%);
@@ -128,6 +129,12 @@
   transform: scale(0.98);
   will-change: opacity, transform;
   animation: equation-fade-scale-in 200ms ease forwards;
+  --tex-editor-font-size: 0.875rem;
+  --tex-editor-line-height: 1.5;
+  --tex-editor-max-height: 50vh;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    monospace;
 }
 
 .equation-editor-popup > *:first-child {
@@ -162,6 +169,23 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* TeX editor placeholder. */
+.tex-editor-placeholder {
+  padding: 4px 2px 4px 6px;
+  margin: 0;
+  max-height: var(--tex-editor-max-height);
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: var(--tex-editor-font-size);
+  line-height: var(--tex-editor-line-height);
+  white-space: break-spaces;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  color: var(--text-dim);
+  user-select: none;
+  cursor: wait;
 }
 
 /* LaTeX syntax highlighting colors. */
