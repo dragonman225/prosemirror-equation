@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.8.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.7.0...v0.8.0) (2025-12-09)
+
+
+### Features
+
+* constrain scope of CSS classes for syntax highlighting ([1be0229](https://github.com/dragonman225/prosemirror-equation/commit/1be022978611a52a5c8b2c9402f4b4eed7ad262c))
+* make TeX editor placeholder more informative ([5184774](https://github.com/dragonman225/prosemirror-equation/commit/5184774ac71c986281ec58f2dfb885d8482c4b99))
+
+
+### Bug Fixes
+
+* don't close editor when click starts or end in popup ([388af0a](https://github.com/dragonman225/prosemirror-equation/commit/388af0a00e5690f5fbd766dda940d4a658aebfa6))
+
 ## [0.7.0](https://github.com/dragonman225/prosemirror-equation/compare/v0.6.1...v0.7.0) (2025-12-05)
 
 
