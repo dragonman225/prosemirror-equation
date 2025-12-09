@@ -30,9 +30,6 @@ function Editor() {
       defineInputRule(inlineEquationInputRule())
     )
     return createEditor({
-      // @ts-ignore Element should be compatible since ProseKit uses
-      // [`DOMParser.fromSchema().parse()`](https://prosemirror.net/docs/ref/#model.DOMParser.parse)
-      // under the hood.
       defaultContent: getDefaultContent(),
       extension,
     })
