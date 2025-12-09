@@ -189,35 +189,35 @@
 }
 
 /* LaTeX syntax highlighting colors. */
-.cm-line .token.equation {
+.equation-editor-popup .cm-line .token.equation {
   color: #690;
 }
 
-.cm-line .token.equation-command {
+.equation-editor-popup .cm-line .token.equation-command {
   color: #e90;
 }
 
-.cm-line .token.function {
+.equation-editor-popup .cm-line .token.function {
   color: #dd4a68;
 }
 
-.cm-line .token.keyword {
+.equation-editor-popup .cm-line .token.keyword {
   color: #07a;
 }
 
-.cm-line .token.comment {
+.equation-editor-popup .cm-line .token.comment {
   color: #708090;
 }
 
-.cm-line .token.punctuation {
+.equation-editor-popup .cm-line .token.punctuation {
   color: #999;
 }
 
-.cm-line .token.cdata {
+.equation-editor-popup .cm-line .token.cdata {
   color: #708090;
 }
 
-.cm-line .token.url {
+.equation-editor-popup .cm-line .token.url {
   color: #9a6e3a;
 }
 
