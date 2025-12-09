@@ -63,18 +63,39 @@ export function createEquationEditorRenderer({
     cancelEdit,
     confirmEdit,
   }: EquationEditorProps): void | CleanupEquationEditorFn {
+    let clickStartedOrEndedInPopup = false
+
     const portal = document.createElement('div')
     portal.classList.add('equation-editor-portal')
 
     // Cancel editing when clicking outside popup
     function handlePortalClick(event: MouseEvent) {
-      if (event.target === portal) cancelEdit()
+      if (event.target === portal && !clickStartedOrEndedInPopup) {
+        cancelEdit()
+      }
+      clickStartedOrEndedInPopup = false
+    }
+    // Test: pointerdown in popup → pointermove outside popup → right click
+    // to open context menu while holding down left button → dismiss
+    // context menu → click outside popup → should close editor.
+    function handlePortalPointerDown(event: MouseEvent) {
+      if (event.target === portal) {
+        clickStartedOrEndedInPopup = false
+      }
     }
     portal.addEventListener('click', handlePortalClick)
+    portal.addEventListener('pointerdown', handlePortalPointerDown)
 
     const popup = document.createElement('div')
     popup.classList.add('equation-editor-popup')
     popup.role = 'dialog'
+
+    function handlePressedInside(event: MouseEvent) {
+      if (event.button !== 0) return
+      clickStartedOrEndedInPopup = true
+    }
+    popup.addEventListener('pointerdown', handlePressedInside)
+    popup.addEventListener('pointerup', handlePressedInside)
 
     const destroyPopupPositioner = autoUpdate(
       { getBoundingClientRect: getNodeRect },
@@ -147,6 +168,9 @@ export function createEquationEditorRenderer({
 
     return () => {
       portal.removeEventListener('click', handlePortalClick)
+      portal.removeEventListener('pointerdown', handlePortalPointerDown)
+      popup.removeEventListener('pointerdown', handlePressedInside)
+      popup.removeEventListener('pointerup', handlePressedInside)
       confirmBtn.removeEventListener('click', handleConfirmBtnClick)
       destroyPopupPositioner()
       animateClose()
